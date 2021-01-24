@@ -6,4 +6,5 @@ create table HardwareOutputType
     Name TEXT
 );
 
-INSERT INTO HardwareOutputType (Id, Name) VALUES (1, 'Backlight');
+INSERT INTO HardwareOutputType (Id, Name) VALUES (1, 'LED Indicator');
+INSERT INTO HardwareOutputType (Id, Name) VALUES (2, '3 Digit 7 Segment Display');

@@ -4,37 +4,52 @@ INSERT INTO sqlite_master (type, name, tbl_name, rootpage, sql) VALUES ('table',
     "ProductVersion" TEXT NOT NULL
 )');
 INSERT INTO sqlite_master (type, name, tbl_name, rootpage, sql) VALUES ('index', 'sqlite_autoindex___EFMigrationsHistory_1', '__EFMigrationsHistory', 3, null);
-INSERT INTO sqlite_master (type, name, tbl_name, rootpage, sql) VALUES ('table', 'HardwareOutputType', 'HardwareOutputType', 18, 'CREATE TABLE "HardwareOutputType" (
-    "Id" INTEGER NOT NULL CONSTRAINT "PK_HardwareOutputType" PRIMARY KEY AUTOINCREMENT,
-    "Name" TEXT NULL
-)');
-INSERT INTO sqlite_master (type, name, tbl_name, rootpage, sql) VALUES ('table', 'sqlite_sequence', 'sqlite_sequence', 19, 'CREATE TABLE sqlite_sequence(name,seq)');
-INSERT INTO sqlite_master (type, name, tbl_name, rootpage, sql) VALUES ('table', 'HardwareInputType', 'HardwareInputType', 21, 'CREATE TABLE "HardwareInputType" (
+INSERT INTO sqlite_master (type, name, tbl_name, rootpage, sql) VALUES ('table', 'HardwareInputType', 'HardwareInputType', 4, 'CREATE TABLE "HardwareInputType" (
     "Id" INTEGER NOT NULL CONSTRAINT "PK_HardwareInputType" PRIMARY KEY AUTOINCREMENT,
     "Name" TEXT NULL
 )');
-INSERT INTO sqlite_master (type, name, tbl_name, rootpage, sql) VALUES ('table', 'HardwareComponents', 'HardwareComponents', 25, 'CREATE TABLE "HardwareComponents" (
-    "Id" INTEGER NOT NULL CONSTRAINT "PK_HardwareComponents" PRIMARY KEY AUTOINCREMENT,
-    "InternalId" TEXT NULL,
+INSERT INTO sqlite_master (type, name, tbl_name, rootpage, sql) VALUES ('table', 'sqlite_sequence', 'sqlite_sequence', 5, 'CREATE TABLE sqlite_sequence(name,seq)');
+INSERT INTO sqlite_master (type, name, tbl_name, rootpage, sql) VALUES ('table', 'HardwareOutputType', 'HardwareOutputType', 6, 'CREATE TABLE "HardwareOutputType" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_HardwareOutputType" PRIMARY KEY AUTOINCREMENT,
     "Name" TEXT NULL
 )');
-INSERT INTO sqlite_master (type, name, tbl_name, rootpage, sql) VALUES ('table', 'HardwareInputs', 'HardwareInputs', 8, 'CREATE TABLE "HardwareInputs" (
-    "Id" INTEGER NOT NULL CONSTRAINT "PK_HardwareInputs" PRIMARY KEY AUTOINCREMENT,
-    "HardwareComponentId" INTEGER NULL,
-    "HardwareInputTypeId" INTEGER NULL,
+INSERT INTO sqlite_master (type, name, tbl_name, rootpage, sql) VALUES ('table', 'HardwarePanels', 'HardwarePanels', 9, 'CREATE TABLE "HardwarePanels" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_HardwarePanels" PRIMARY KEY AUTOINCREMENT,
     "Name" TEXT NULL,
-    CONSTRAINT "FK_HardwareInputs_HardwareComponents_HardwareComponentId" FOREIGN KEY ("HardwareComponentId") REFERENCES "HardwareComponents" ("Id") ON DELETE RESTRICT,
-    CONSTRAINT "FK_HardwareInputs_HardwareInputType_HardwareInputTypeId" FOREIGN KEY ("HardwareInputTypeId") REFERENCES "HardwareInputType" ("Id") ON DELETE RESTRICT
+    "AircraftModelId" INTEGER NULL, "CockpitArea" INTEGER NOT NULL DEFAULT 0, "HardwarePanelOwner" INTEGER NOT NULL DEFAULT 0,
+    CONSTRAINT "FK_HardwarePanels_AircraftModels_AircraftModelId" FOREIGN KEY ("AircraftModelId") REFERENCES "AircraftModels" ("Id") ON DELETE RESTRICT
 )');
+INSERT INTO sqlite_master (type, name, tbl_name, rootpage, sql) VALUES ('index', 'IX_HardwarePanels_AircraftModelId', 'HardwarePanels', 21, 'CREATE INDEX "IX_HardwarePanels_AircraftModelId" ON "HardwarePanels" ("AircraftModelId")');
 INSERT INTO sqlite_master (type, name, tbl_name, rootpage, sql) VALUES ('table', 'HardwareOutputs', 'HardwareOutputs', 10, 'CREATE TABLE "HardwareOutputs" (
     "Id" INTEGER NOT NULL CONSTRAINT "PK_HardwareOutputs" PRIMARY KEY AUTOINCREMENT,
-    "HardwareComponentId" INTEGER NULL,
     "HardwareOutputTypeId" INTEGER NULL,
+    "HardwarePanelId" INTEGER NULL,
     "Name" TEXT NULL,
-    CONSTRAINT "FK_HardwareOutputs_HardwareComponents_HardwareComponentId" FOREIGN KEY ("HardwareComponentId") REFERENCES "HardwareComponents" ("Id") ON DELETE RESTRICT,
-    CONSTRAINT "FK_HardwareOutputs_HardwareOutputType_HardwareOutputTypeId" FOREIGN KEY ("HardwareOutputTypeId") REFERENCES "HardwareOutputType" ("Id") ON DELETE RESTRICT
+    "State" INTEGER NULL,
+    CONSTRAINT "FK_HardwareOutputs_HardwareOutputType_HardwareOutputTypeId" FOREIGN KEY ("HardwareOutputTypeId") REFERENCES "HardwareOutputType" ("Id") ON DELETE RESTRICT,
+    CONSTRAINT "FK_HardwareOutputs_HardwarePanels_HardwarePanelId" FOREIGN KEY ("HardwarePanelId") REFERENCES "HardwarePanels" ("Id") ON DELETE RESTRICT
 )');
-INSERT INTO sqlite_master (type, name, tbl_name, rootpage, sql) VALUES ('index', 'IX_HardwareInputs_HardwareComponentId', 'HardwareInputs', 4, 'CREATE INDEX "IX_HardwareInputs_HardwareComponentId" ON "HardwareInputs" ("HardwareComponentId")');
-INSERT INTO sqlite_master (type, name, tbl_name, rootpage, sql) VALUES ('index', 'IX_HardwareInputs_HardwareInputTypeId', 'HardwareInputs', 5, 'CREATE INDEX "IX_HardwareInputs_HardwareInputTypeId" ON "HardwareInputs" ("HardwareInputTypeId")');
-INSERT INTO sqlite_master (type, name, tbl_name, rootpage, sql) VALUES ('index', 'IX_HardwareOutputs_HardwareComponentId', 'HardwareOutputs', 6, 'CREATE INDEX "IX_HardwareOutputs_HardwareComponentId" ON "HardwareOutputs" ("HardwareComponentId")');
-INSERT INTO sqlite_master (type, name, tbl_name, rootpage, sql) VALUES ('index', 'IX_HardwareOutputs_HardwareOutputTypeId', 'HardwareOutputs', 7, 'CREATE INDEX "IX_HardwareOutputs_HardwareOutputTypeId" ON "HardwareOutputs" ("HardwareOutputTypeId")');
+INSERT INTO sqlite_master (type, name, tbl_name, rootpage, sql) VALUES ('table', 'HardwareInputs', 'HardwareInputs', 14, 'CREATE TABLE "HardwareInputs" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_HardwareInputs" PRIMARY KEY AUTOINCREMENT,
+    "HardwareInputTypeId" INTEGER NULL,
+    "HardwarePanelId" INTEGER NULL,
+    "Name" TEXT NULL,
+    "State" INTEGER NULL,
+    CONSTRAINT "FK_HardwareInputs_HardwareInputType_HardwareInputTypeId" FOREIGN KEY ("HardwareInputTypeId") REFERENCES "HardwareInputType" ("Id") ON DELETE RESTRICT,
+    CONSTRAINT "FK_HardwareInputs_HardwarePanels_HardwarePanelId" FOREIGN KEY ("HardwarePanelId") REFERENCES "HardwarePanels" ("Id") ON DELETE RESTRICT
+)');
+INSERT INTO sqlite_master (type, name, tbl_name, rootpage, sql) VALUES ('index', 'IX_HardwareOutputs_HardwareOutputTypeId', 'HardwareOutputs', 11, 'CREATE INDEX "IX_HardwareOutputs_HardwareOutputTypeId" ON "HardwareOutputs" ("HardwareOutputTypeId")');
+INSERT INTO sqlite_master (type, name, tbl_name, rootpage, sql) VALUES ('index', 'IX_HardwareOutputs_HardwarePanelId', 'HardwareOutputs', 12, 'CREATE INDEX "IX_HardwareOutputs_HardwarePanelId" ON "HardwareOutputs" ("HardwarePanelId")');
+INSERT INTO sqlite_master (type, name, tbl_name, rootpage, sql) VALUES ('index', 'IX_HardwareInputs_HardwareInputTypeId', 'HardwareInputs', 15, 'CREATE INDEX "IX_HardwareInputs_HardwareInputTypeId" ON "HardwareInputs" ("HardwareInputTypeId")');
+INSERT INTO sqlite_master (type, name, tbl_name, rootpage, sql) VALUES ('index', 'IX_HardwareInputs_HardwarePanelId', 'HardwareInputs', 18, 'CREATE INDEX "IX_HardwareInputs_HardwarePanelId" ON "HardwareInputs" ("HardwarePanelId")');
+INSERT INTO sqlite_master (type, name, tbl_name, rootpage, sql) VALUES ('table', 'AircraftModels', 'AircraftModels', 13, 'CREATE TABLE "AircraftModels" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_AircraftModels" PRIMARY KEY AUTOINCREMENT,
+    "ManufacturerId" INTEGER NULL,
+    "Model" TEXT NULL,
+    CONSTRAINT "FK_AircraftModels_Manufacturers_ManufacturerId" FOREIGN KEY ("ManufacturerId") REFERENCES "Manufacturers" ("Id") ON DELETE RESTRICT
+)');
+INSERT INTO sqlite_master (type, name, tbl_name, rootpage, sql) VALUES ('table', 'Manufacturers', 'Manufacturers', 22, 'CREATE TABLE "Manufacturers" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_Manufacturers" PRIMARY KEY AUTOINCREMENT,
+    "Name" TEXT NULL
+)');
+INSERT INTO sqlite_master (type, name, tbl_name, rootpage, sql) VALUES ('index', 'IX_AircraftModels_ManufacturerId', 'AircraftModels', 7, 'CREATE INDEX "IX_AircraftModels_ManufacturerId" ON "AircraftModels" ("ManufacturerId")');

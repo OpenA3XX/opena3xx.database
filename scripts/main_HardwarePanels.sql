@@ -70,3 +70,4 @@ INSERT INTO HardwarePanels (Id, Name, AircraftModelId, CockpitArea, HardwarePane
 INSERT INTO HardwarePanels (Id, Name, AircraftModelId, CockpitArea, HardwarePanelOwner) VALUES (54, 'Ventilation Control Panel', 1, 2, 2);
 INSERT INTO HardwarePanels (Id, Name, AircraftModelId, CockpitArea, HardwarePanelOwner) VALUES (55, 'Engine Master & N1 Mode Controls Panel', 1, 2, 2);
 INSERT INTO HardwarePanels (Id, Name, AircraftModelId, CockpitArea, HardwarePanelOwner) VALUES (56, 'Wind Screen Control Panel', 1, 2, 1);
+INSERT INTO HardwarePanels (Id, Name, AircraftModelId, CockpitArea, HardwarePanelOwner) VALUES (58, 'Cockpit Communication Control Panel', 1, 2, 2);
